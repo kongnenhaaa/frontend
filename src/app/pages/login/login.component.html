@@ -1,0 +1,25 @@
+<div class="min-h-screen flex items-center justify-center app-gradient px-6">
+  <mat-card class="w-full max-w-md">
+    <form class="p-6 space-y-5" [formGroup]="form" (ngSubmit)="submit()">
+      <div>
+        <p class="font-display text-2xl text-ink">Welcome back</p>
+        <p class="text-sm text-slate-500">Sign in to manage your workforce.</p>
+      </div>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="you@company.com" formControlName="email" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="••••••••" formControlName="password" />
+      </mat-form-field>
+      @if (error()) {
+        <p class="text-sm text-red-600">{{ error() }}</p>
+      }
+      <button mat-raised-button color="primary" class="w-full" [disabled]="loading()">
+        Sign in
+      </button>
+      <p class="text-xs text-slate-400">Powered by CoreHR Platform</p>
+    </form>
+  </mat-card>
+</div>

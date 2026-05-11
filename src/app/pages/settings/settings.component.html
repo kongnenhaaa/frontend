@@ -1,0 +1,32 @@
+<section class="space-y-4">
+  <div>
+    <p class="font-display text-2xl text-ink">Settings</p>
+    <p class="text-slate-500">Configure company preferences and policies.</p>
+  </div>
+  <mat-card class="p-6 space-y-4">
+    <form class="grid gap-3 md:grid-cols-3" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Key</mat-label>
+        <input matInput formControlName="key" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Value</mat-label>
+        <input matInput formControlName="value" />
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="md:mt-2" type="submit">Save</button>
+    </form>
+
+    <div class="space-y-2">
+      <div
+        class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2"
+        *ngFor="let setting of settings()"
+      >
+        <div>
+          <p class="font-medium text-ink">{{ setting.key }}</p>
+          <p class="text-xs text-slate-500">{{ setting.value }}</p>
+        </div>
+      </div>
+      <p class="text-sm text-slate-500" *ngIf="settings().length === 0">No settings yet.</p>
+    </div>
+  </mat-card>
+</section>

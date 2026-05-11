@@ -1,0 +1,26 @@
+<section class="space-y-6">
+  <div>
+    <p class="font-display text-2xl text-ink">Dashboard</p>
+    <p class="text-slate-500">Live view of workforce metrics.</p>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    <mat-card class="p-4">
+      <p class="text-sm text-slate-500">Employees</p>
+      <p class="font-display text-3xl">{{ summary()?.employees ?? 0 }}</p>
+    </mat-card>
+    <mat-card class="p-4">
+      <p class="text-sm text-slate-500">Departments</p>
+      <p class="font-display text-3xl">{{ summary()?.departments ?? 0 }}</p>
+    </mat-card>
+    <mat-card class="p-4">
+      <p class="text-sm text-slate-500">Attendance logs</p>
+      <p class="font-display text-3xl">{{ summary()?.attendance ?? 0 }}</p>
+    </mat-card>
+  </div>
+
+  <mat-card class="p-6">
+    <p class="font-display text-xl">Trends</p>
+    <p class="text-slate-500">Charts will appear once data syncs.</p>
+  </mat-card>
+</section>

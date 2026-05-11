@@ -1,0 +1,13 @@
+<section class="space-y-4">
+  <div>
+    <p class="font-display text-2xl text-ink">Reports</p>
+    <p class="text-slate-500">Export attendance and workforce analytics.</p>
+  </div>
+  <mat-card class="p-6">
+    <p class="text-sm text-slate-500">Attendance total</p>
+    <p class="font-display text-3xl">{{ attendanceReport()?.total ?? 0 }}</p>
+    <p class="text-xs text-slate-400 mt-2">
+      Generated at {{ attendanceReport()?.generatedAt ?? '—' }}
+    </p>
+  </mat-card>
+</section>
