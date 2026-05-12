@@ -44,7 +44,7 @@ export class EmployeesComponent implements OnInit {
   // Derived counts
   readonly activeCount   = computed(() => this.allData().filter(e => e.status === 'active').length);
   readonly onLeaveCount  = computed(() => this.allData().filter(e => e.status === 'on_leave').length);
-  readonly inactiveCount = computed(() => this.allData().filter(e => e.status === 'inactive').length);
+  readonly inactiveCount = computed(() => this.allData().filter(e => e.status === 'inactive' || e.status === 'terminated').length);
 
   readonly filteredData = computed(() => {
     const q = (this.searchControl.value || '').toLowerCase();
@@ -59,10 +59,13 @@ export class EmployeesComponent implements OnInit {
     });
   });
 
+  readonly pagedData = computed(() => {
+    const start = this.pageIndex() * this.pageSize();
+    return this.filteredData().slice(start, start + this.pageSize());
+  });
+
   readonly pages = computed(() => {
-    const total = this.total();
-    const size  = this.pageSize();
-    const count = Math.ceil(total / size);
+    const count = Math.ceil(this.filteredData().length / this.pageSize());
     return Array.from({ length: count }, (_, i) => i + 1);
   });
 
@@ -94,7 +97,7 @@ export class EmployeesComponent implements OnInit {
 
   min(a: number, b: number) { return Math.min(a, b); }
   prevPage() { if (this.pageIndex() > 0) this.pageIndex.update(p => p - 1); }
-  nextPage() { if ((this.pageIndex() + 1) * this.pageSize() < this.total()) this.pageIndex.update(p => p + 1); }
+  nextPage() { if ((this.pageIndex() + 1) * this.pageSize() < this.filteredData().length) this.pageIndex.update(p => p + 1); }
   goPage(p: number) { this.pageIndex.set(p); }
 
   openDialog(employee?: Employee) {

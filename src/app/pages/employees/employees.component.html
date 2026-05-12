@@ -81,7 +81,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (emp of filteredData(); track emp.id; let i = $index) {
+          @for (emp of pagedData(); track emp.id; let i = $index) {
             <tr class="emp-row" [style.animation-delay]="i * 40 + 'ms'">
               <!-- Employee -->
               <td class="emp-cell">
@@ -104,9 +104,9 @@
                 <span class="status-badge"
                   [class.s-active]="emp.status === 'active'"
                   [class.s-leave]="emp.status === 'on_leave'"
-                  [class.s-inactive]="emp.status === 'inactive'">
+                  [class.s-inactive]="emp.status === 'inactive' || emp.status === 'terminated'">
                   <i></i>
-                  {{ emp.status === 'on_leave' ? 'On Leave' : (emp.status | titlecase) }}
+                  {{ emp.status === 'on_leave' ? 'On Leave' : emp.status === 'terminated' ? 'Terminated' : (emp.status | titlecase) }}
                 </span>
               </td>
               <!-- Actions -->
@@ -139,7 +139,7 @@
     <!-- Pagination -->
     <div class="pager">
       <span class="pager-info">
-        Showing {{ pageIndex() * pageSize() + 1 }}–{{ min(pageIndex() * pageSize() + pageSize(), total()) }} of {{ total() }}
+        Showing {{ filteredData().length === 0 ? 0 : pageIndex() * pageSize() + 1 }}–{{ min(pageIndex() * pageSize() + pageSize(), filteredData().length) }} of {{ filteredData().length }}
       </span>
       <div class="pager-btns">
         <button class="pg-btn" [disabled]="pageIndex() === 0" (click)="prevPage()">
@@ -148,7 +148,7 @@
         @for (p of pages(); track p) {
           <button class="pg-num" [class.pg-active]="p === pageIndex()+1" (click)="goPage(p-1)">{{ p }}</button>
         }
-        <button class="pg-btn" [disabled]="(pageIndex()+1)*pageSize() >= total()" (click)="nextPage()">
+        <button class="pg-btn" [disabled]="(pageIndex()+1)*pageSize() >= filteredData().length" (click)="nextPage()">
           <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
       </div>
