@@ -27,7 +27,6 @@ const AVATAR_COLORS = [
     MatSnackBarModule,
     ReactiveFormsModule,
     TitleCasePipe,
-    ConfirmDialogComponent,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css',

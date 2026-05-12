@@ -15,7 +15,7 @@ const COLORS = ['#6366f1', '#8b5cf6', '#3b82f6', '#22c55e', '#f97316', '#ec4899'
 @Component({
   selector: 'app-departments',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule, ConfirmDialogComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule],
   templateUrl: './departments.component.html',
   styleUrl: './departments.component.css',
 })

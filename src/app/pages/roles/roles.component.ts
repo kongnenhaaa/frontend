@@ -14,7 +14,7 @@ import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dia
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule, ConfirmDialogComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.css',
 })

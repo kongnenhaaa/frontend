@@ -28,7 +28,6 @@ import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dia
     MatSnackBarModule,
     MatDialogModule,
     ReactiveFormsModule,
-    ConfirmDialogComponent,
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',

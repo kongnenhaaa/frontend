@@ -15,7 +15,7 @@ const COLORS = ['#6366f1','#8b5cf6','#3b82f6','#22c55e','#f97316','#ec4899','#14
 @Component({
   selector: 'app-attendance',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule, DatePipe, TitleCasePipe, ConfirmDialogComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule, DatePipe, TitleCasePipe],
   templateUrl: './attendance.component.html',
   styleUrl: './attendance.component.css',
 })
