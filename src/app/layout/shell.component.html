@@ -1,7 +1,12 @@
 <div class="app-layout">
 
+  <!-- ================= OVERLAY ================= -->
+  @if (isSidebarOpen) {
+    <div class="sidebar-backdrop" (click)="closeSidebar()"></div>
+  }
+
   <!-- ================= SIDEBAR ================= -->
-  <aside class="sidebar">
+  <aside class="sidebar" [class.open]="isSidebarOpen">
     
     <!-- Sidebar Header / Logo -->
     <div class="sidebar-brand">
@@ -28,39 +33,39 @@
     <nav class="sidebar-nav">
       <div class="nav-section">Main Menu</div>
       
-      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>grid_view</mat-icon>
         <span>Dashboard</span>
       </a>
       
-      <a routerLink="/employees" routerLinkActive="active" class="nav-item">
+      <a routerLink="/employees" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>people_outline</mat-icon>
         <span>Employees</span>
       </a>
       
-      <a routerLink="/departments" routerLinkActive="active" class="nav-item">
+      <a routerLink="/departments" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>domain</mat-icon>
         <span>Departments</span>
       </a>
       
-      <a routerLink="/attendance" routerLinkActive="active" class="nav-item">
+      <a routerLink="/attendance" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>event_available</mat-icon>
         <span>Attendance</span>
       </a>
 
       <div class="nav-section mt-4">System</div>
       
-      <a routerLink="/roles" routerLinkActive="active" class="nav-item">
+      <a routerLink="/roles" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>admin_panel_settings</mat-icon>
         <span>Roles & Access</span>
       </a>
       
-      <a routerLink="/reports" routerLinkActive="active" class="nav-item">
+      <a routerLink="/reports" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>insert_chart_outlined</mat-icon>
         <span>Reports</span>
       </a>
       
-      <a routerLink="/settings" routerLinkActive="active" class="nav-item">
+      <a routerLink="/settings" routerLinkActive="active" class="nav-item" (click)="closeSidebar()">
         <mat-icon>settings</mat-icon>
         <span>Settings</span>
       </a>
@@ -84,6 +89,9 @@
     <!-- Top Header -->
     <header class="top-header">
       <div class="header-left">
+        <button class="icon-btn mobile-menu-btn" (click)="toggleSidebar()">
+          <mat-icon>menu</mat-icon>
+        </button>
         <div class="search-box">
           <mat-icon>search</mat-icon>
           <input type="text" placeholder="Search employees, departments..." />

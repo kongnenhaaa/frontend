@@ -300,3 +300,16 @@
 .filter-tabs { display: flex; gap: 4px; background: rgba(255,255,255,.8); border: 1px solid #e2e8f0; border-radius: 10px; padding: 3px; }
 .ftab { padding: 6px 14px; border-radius: 8px; border: none; background: transparent; font-size: .8rem; font-weight: 500; color: #64748b; cursor: pointer; font-family: inherit; transition: all .18s; }
 .ftab.active { background: #6366f1; color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(99,102,241,.3); }
+
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .dept-root { padding: 16px; gap: 16px; }
+  .page-header h1 { font-size: 1.4rem; }
+  .dept-toolbar { flex-direction: column; align-items: flex-start; }
+  .search-box { width: 100%; max-width: 100%; }
+  .stats-row { gap: 10px; }
+  .stat-pill { padding: 10px 14px; min-width: calc(50% - 5px); }
+  .dept-grid { grid-template-columns: 1fr; }
+}

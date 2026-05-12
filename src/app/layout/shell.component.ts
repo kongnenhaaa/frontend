@@ -26,9 +26,18 @@ import { AuthService } from '../core/auth/auth.service';
 })
 export class ShellComponent {
   readonly user;
+  isSidebarOpen = false;
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {
     this.user = this.authService.user;
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
   }
 
   logout() {

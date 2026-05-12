@@ -256,3 +256,13 @@ td { padding: 14px 20px; vertical-align: middle; font-size: .88rem; color: #3741
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ═══════ MOBILE RESPONSIVE ═══════ */
+@media (max-width: 768px) {
+  .emp-root { padding: 16px; }
+  .page-header h1 { font-size: 1.4rem; }
+  .table-toolbar { flex-direction: column; align-items: flex-start; }
+  .search-box { width: 100%; max-width: 100%; }
+  .stats-row { gap: 10px; }
+  .stat-pill { padding: 10px 14px; min-width: calc(50% - 5px); }
+}

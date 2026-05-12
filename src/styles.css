@@ -71,3 +71,10 @@ body {
 .delete-btn { color: #64748b; }
 .edit-btn:hover   { background: rgba(99,102,241,.1); border-color: rgba(99,102,241,.3); }
 .delete-btn:hover { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.3); color: #ef4444; }
+
+/* Auto scale down on mobile */
+@media (max-width: 768px) {
+  html {
+    zoom: 0.85;
+  }
+}
