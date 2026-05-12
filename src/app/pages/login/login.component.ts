@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
+import { DemoStore } from '../../core/demo/demo.store';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,9 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  private readonly demoEmail = 'admin@corehr.com';
+  private readonly demoPassword = 'Admin@123';
+
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly showPassword = signal(false);
@@ -36,7 +40,7 @@ export class LoginComponent {
     });
   }
 
-  submit() {
+  submit(seedDemo = false) {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.error.set('Please enter your email and password.');
@@ -48,6 +52,23 @@ export class LoginComponent {
     this.error.set(null);
 
     this.authService.login(email ?? '', password ?? '').subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: () => {
+        this.loading.set(false);
+        this.error.set('Login failed. Check your credentials and try again.');
+      },
+    });
+  }
+
+  useDemo() {
+    this.form.patchValue({ email: this.demoEmail, password: this.demoPassword });
+    this.loading.set(true);
+    this.error.set(null);
+    DemoStore.enableDemo();
+    this.authService.loginDemo().subscribe({
       next: () => {
         this.loading.set(false);
         this.router.navigateByUrl('/dashboard');
@@ -77,4 +98,5 @@ export class LoginComponent {
       this.form.patchValue({ email: this.registerForm.get('email')?.value });
     }, 1500);
   }
+
 }

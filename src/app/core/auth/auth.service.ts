@@ -1,7 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { API_BASE_URL } from '../api.config';
+import { DemoStore } from '../demo/demo.store';
 
 interface AuthResponse {
   accessToken: string;
@@ -25,9 +27,29 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   login(email: string, password: string) {
+    if (DemoStore.isDemo()) {
+      return this.loginDemo();
+    }
+
     return this.http
       .post<AuthResponse>(`${API_BASE_URL}/auth/login`, { email, password })
       .pipe(tap((response) => this.storeAuth(response)));
+  }
+
+  loginDemo() {
+    const response: AuthResponse = {
+      accessToken: 'demo-access-token',
+      refreshToken: 'demo-refresh-token',
+      user: {
+        id: 'demo-user',
+        email: 'admin@corehr.com',
+        roles: ['demo-admin'],
+        permissions: ['employees:read', 'departments:read', 'attendance:read', 'settings:read'],
+      },
+    };
+
+    this.storeAuth(response);
+    return of(response);
   }
 
   refresh() {

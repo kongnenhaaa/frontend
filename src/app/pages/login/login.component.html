@@ -221,10 +221,18 @@
             </button>
           </form>
 
-          <div class="demo-cred">
-            <div class="demo-title">Demo account</div>
-            <div class="demo-row"><span>Email</span><strong>admin@corehr.com</strong></div>
-            <div class="demo-row"><span>Password</span><strong>Admin@123</strong></div>
+          <div class="demo-cta">
+            <button type="button" class="demo-btn" (click)="useDemo()">
+              <span>Xem Demo</span>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <div class="demo-note">Tự động đăng nhập và tạo dữ liệu mẫu.</div>
+            <div class="demo-list">
+              <span>Departments</span>
+              <span>Employees</span>
+              <span>Attendance</span>
+              <span>Settings</span>
+            </div>
           </div>
 
           <div class="social-divider"><span>Or continue with</span></div>
