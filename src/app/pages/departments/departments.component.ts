@@ -1,18 +1,21 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DepartmentsApi, Department } from '../../core/api/departments.api';
 import { DepartmentDialogComponent } from './department-dialog/department-dialog.component';
+import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dialog.component';
 
 const COLORS = ['#6366f1', '#8b5cf6', '#3b82f6', '#22c55e', '#f97316', '#ec4899', '#14b8a6'];
 
 @Component({
   selector: 'app-departments',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatIconModule, MatMenuModule],
+  imports: [CommonModule, ReactiveFormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule, ConfirmDialogComponent],
   templateUrl: './departments.component.html',
   styleUrl: './departments.component.css',
 })
@@ -36,7 +39,11 @@ export class DepartmentsComponent implements OnInit {
     });
   });
 
-  constructor(private readonly departmentsApi: DepartmentsApi, private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly departmentsApi: DepartmentsApi,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   getAvatarColor(name: string): string {
     return COLORS[(name.charCodeAt(0) || 0) % COLORS.length];
@@ -60,17 +67,42 @@ export class DepartmentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (department) {
-          this.departmentsApi.update(department.id, result).subscribe(() => this.loadDepartments());
+          this.departmentsApi.update(department.id, result).subscribe(() => {
+            this.notify('Department updated', 'success');
+            this.loadDepartments();
+          });
         } else {
-          this.departmentsApi.create(result).subscribe(() => this.loadDepartments());
+          this.departmentsApi.create(result).subscribe(() => {
+            this.notify('Department created', 'success');
+            this.loadDepartments();
+          });
         }
       }
     });
   }
 
   deleteDepartment(id: string) {
-    if (confirm('Are you sure you want to delete this department?')) {
-      this.departmentsApi.remove(id).subscribe(() => this.loadDepartments());
-    }
+    this.openDeleteConfirm('Delete department?', 'This action cannot be undone.')
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.departmentsApi.remove(id).subscribe(() => {
+          this.notify('Department deleted', 'danger');
+          this.loadDepartments();
+        });
+      });
+  }
+
+  private notify(message: string, tone: 'success' | 'warn' | 'danger') {
+    this.snackBar.open(message, 'Close', {
+      duration: 2600,
+      panelClass: ['app-snack', `snack-${tone}`],
+    });
+  }
+
+  private openDeleteConfirm(title: string, message: string) {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: { title, message, confirmText: 'Delete', cancelText: 'Cancel', tone: 'danger' },
+      panelClass: 'confirm-dialog',
+    }).afterClosed();
   }
 }

@@ -6,13 +6,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RolesApi, Role } from '../../core/api/roles.api';
 import { RoleDialogComponent } from './role-dialog/role-dialog.component';
+import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, MatSnackBarModule, ConfirmDialogComponent],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.css',
 })
@@ -28,7 +30,11 @@ export class RolesComponent implements OnInit {
     );
   });
 
-  constructor(private readonly rolesApi: RolesApi, private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly rolesApi: RolesApi,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.loadRoles();
@@ -46,17 +52,42 @@ export class RolesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (role) {
-          this.rolesApi.update(role.id, result).subscribe(() => this.loadRoles());
+          this.rolesApi.update(role.id, result).subscribe(() => {
+            this.notify('Role updated', 'success');
+            this.loadRoles();
+          });
         } else {
-          this.rolesApi.create(result).subscribe(() => this.loadRoles());
+          this.rolesApi.create(result).subscribe(() => {
+            this.notify('Role created', 'success');
+            this.loadRoles();
+          });
         }
       }
     });
   }
 
   deleteRole(id: string) {
-    if (confirm('Are you sure you want to delete this role?')) {
-      this.rolesApi.remove(id).subscribe(() => this.loadRoles());
-    }
+    this.openDeleteConfirm('Delete role?', 'This action cannot be undone.')
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.rolesApi.remove(id).subscribe(() => {
+          this.notify('Role deleted', 'danger');
+          this.loadRoles();
+        });
+      });
+  }
+
+  private notify(message: string, tone: 'success' | 'warn' | 'danger') {
+    this.snackBar.open(message, 'Close', {
+      duration: 2600,
+      panelClass: ['app-snack', `snack-${tone}`],
+    });
+  }
+
+  private openDeleteConfirm(title: string, message: string) {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: { title, message, confirmText: 'Delete', cancelText: 'Cancel', tone: 'danger' },
+      panelClass: 'confirm-dialog',
+    }).afterClosed();
   }
 }

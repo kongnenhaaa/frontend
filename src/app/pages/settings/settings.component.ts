@@ -6,8 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SettingsApi, Setting } from '../../core/api/settings.api';
+import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +24,11 @@ import { SettingsApi, Setting } from '../../core/api/settings.api';
     MatInputModule,
     MatTableModule,
     MatIconModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatDialogModule,
     ReactiveFormsModule,
+    ConfirmDialogComponent,
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
@@ -31,7 +39,12 @@ export class SettingsComponent implements OnInit {
 
   readonly form: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly settingsApi: SettingsApi) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly settingsApi: SettingsApi,
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog
+  ) {
     this.form = this.fb.group({
       key: ['', Validators.required],
       value: ['', Validators.required],
@@ -49,6 +62,7 @@ export class SettingsComponent implements OnInit {
 
     const { key, value } = this.form.getRawValue();
     this.settingsApi.upsert(key ?? '', value ?? '').subscribe(() => {
+      this.notify(this.isEditing() ? 'Setting updated' : 'Setting created', 'success');
       this.cancelEdit();
       this.loadSettings();
     });
@@ -68,9 +82,28 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteSetting(key: string) {
-    if (confirm(`Delete setting "${key}"?`)) {
-      this.settingsApi.remove(key).subscribe(() => this.loadSettings());
-    }
+    this.openDeleteConfirm(`Delete setting "${key}"?`, 'This action cannot be undone.')
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.settingsApi.remove(key).subscribe(() => {
+          this.notify('Setting deleted', 'danger');
+          this.loadSettings();
+        });
+      });
+  }
+
+  private notify(message: string, tone: 'success' | 'warn' | 'danger') {
+    this.snackBar.open(message, 'Close', {
+      duration: 2600,
+      panelClass: ['app-snack', `snack-${tone}`],
+    });
+  }
+
+  private openDeleteConfirm(title: string, message: string) {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: { title, message, confirmText: 'Delete', cancelText: 'Cancel', tone: 'danger' },
+      panelClass: 'confirm-dialog',
+    }).afterClosed();
   }
 
   private loadSettings() {

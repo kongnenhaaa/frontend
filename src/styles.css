@@ -35,3 +35,27 @@ body {
   padding: 0 !important;
 }
 
+/* Snackbars */
+.app-snack.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-shape: 12px;
+  --mdc-snackbar-supporting-text-color: #f8fafc;
+  --mdc-snackbar-supporting-text-font: 500 .85rem/1.2 "Inter", sans-serif;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+}
+.snack-success.mat-mdc-snack-bar-container { --mdc-snackbar-container-color: #16a34a; }
+.snack-warn.mat-mdc-snack-bar-container { --mdc-snackbar-container-color: #ea580c; }
+.snack-danger.mat-mdc-snack-bar-container { --mdc-snackbar-container-color: #dc2626; }
+
+/* Confirm Dialog */
+.confirm-dialog .mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 18px;
+  --mdc-dialog-container-color: white;
+  padding: 0 !important;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18) !important;
+}
+.confirm-dialog .mat-mdc-dialog-surface {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+

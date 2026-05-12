@@ -3,16 +3,19 @@ import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AttendanceApi, AttendanceRecord } from '../../core/api/attendance.api';
 import { AttendanceDialogComponent } from './attendance-dialog/attendance-dialog.component';
+import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dialog.component';
 
 const COLORS = ['#6366f1','#8b5cf6','#3b82f6','#22c55e','#f97316','#ec4899','#14b8a6'];
 
 @Component({
   selector: 'app-attendance',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatIconModule, MatMenuModule, DatePipe, TitleCasePipe],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule, DatePipe, TitleCasePipe, ConfirmDialogComponent],
   templateUrl: './attendance.component.html',
   styleUrl: './attendance.component.css',
 })
@@ -38,7 +41,11 @@ export class AttendanceComponent implements OnInit {
     });
   });
 
-  constructor(private readonly attendanceApi: AttendanceApi, private readonly dialog: MatDialog) {}
+  constructor(
+    private readonly attendanceApi: AttendanceApi,
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.loadRecords();
@@ -85,16 +92,41 @@ export class AttendanceComponent implements OnInit {
     ref.afterClosed().subscribe(result => {
       if (!result) return;
       if (record) {
-        this.attendanceApi.update(record.id, result).subscribe(() => this.loadRecords());
+        this.attendanceApi.update(record.id, result).subscribe(() => {
+          this.notify('Attendance updated', 'success');
+          this.loadRecords();
+        });
       } else {
-        this.attendanceApi.create(result).subscribe(() => this.loadRecords());
+        this.attendanceApi.create(result).subscribe(() => {
+          this.notify('Attendance created', 'success');
+          this.loadRecords();
+        });
       }
     });
   }
 
   deleteRecord(id: string) {
-    if (confirm('Delete this attendance record?')) {
-      this.attendanceApi.remove(id).subscribe(() => this.loadRecords());
-    }
+    this.openDeleteConfirm('Delete attendance record?', 'This action cannot be undone.')
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.attendanceApi.remove(id).subscribe(() => {
+          this.notify('Attendance deleted', 'danger');
+          this.loadRecords();
+        });
+      });
+  }
+
+  private notify(message: string, tone: 'success' | 'warn' | 'danger') {
+    this.snackBar.open(message, 'Close', {
+      duration: 2600,
+      panelClass: ['app-snack', `snack-${tone}`],
+    });
+  }
+
+  private openDeleteConfirm(title: string, message: string) {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: { title, message, confirmText: 'Delete', cancelText: 'Cancel', tone: 'danger' },
+      panelClass: 'confirm-dialog',
+    }).afterClosed();
   }
 }

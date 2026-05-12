@@ -217,6 +217,14 @@ td { padding: 14px 20px; vertical-align: middle; font-size: .88rem; color: #3741
 .edit-btn:hover   { background: rgba(99,102,241,.1); border-color: rgba(99,102,241,.3); }
 .delete-btn:hover { background: rgba(239,68,68,.08); border-color: rgba(239,68,68,.3); color: #ef4444; }
 
+.more-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid #e2e8f0; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #64748b; transition: all .18s;
+}
+.more-btn:hover { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+
 .empty-row td { padding: 56px 20px; }
 .empty-state {
   display: flex; flex-direction: column; align-items: center; gap: 8px;

@@ -2,10 +2,14 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { EmployeesApi, Employee } from '../../core/api/employees.api';
 import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
+import { ConfirmDialogComponent } from '../../core/ui/confirm-dialog/confirm-dialog.component';
 
 const AVATAR_COLORS = [
   '#6366f1','#8b5cf6','#3b82f6','#22c55e','#f97316','#ec4899','#14b8a6','#f59e0b'
@@ -16,10 +20,14 @@ const AVATAR_COLORS = [
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatMenuModule,
+    MatSnackBarModule,
     ReactiveFormsModule,
     TitleCasePipe,
+    ConfirmDialogComponent,
   ],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css',
@@ -61,7 +69,8 @@ export class EmployeesComponent implements OnInit {
 
   constructor(
     private readonly employeesApi: EmployeesApi,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -98,15 +107,41 @@ export class EmployeesComponent implements OnInit {
     ref.afterClosed().subscribe(result => {
       if (!result) return;
       if (employee) {
-        this.employeesApi.update(employee.id, result).subscribe(() => this.loadData());
+        this.employeesApi.update(employee.id, result).subscribe(() => {
+          this.notify('Employee updated', 'success');
+          this.loadData();
+        });
       } else {
-        this.employeesApi.create(result).subscribe(() => this.loadData());
+        this.employeesApi.create(result).subscribe(() => {
+          this.notify('Employee created', 'success');
+          this.loadData();
+        });
       }
     });
   }
 
   deleteEmployee(id: string) {
-    if (!confirm('Delete this employee? This action cannot be undone.')) return;
-    this.employeesApi.remove(id).subscribe(() => this.loadData());
+    this.openDeleteConfirm('Delete employee?', 'This action cannot be undone.')
+      .subscribe(confirmed => {
+        if (!confirmed) return;
+        this.employeesApi.remove(id).subscribe(() => {
+          this.notify('Employee deleted', 'danger');
+          this.loadData();
+        });
+      });
+  }
+
+  private notify(message: string, tone: 'success' | 'warn' | 'danger') {
+    this.snackBar.open(message, 'Close', {
+      duration: 2600,
+      panelClass: ['app-snack', `snack-${tone}`],
+    });
+  }
+
+  private openDeleteConfirm(title: string, message: string) {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: { title, message, confirmText: 'Delete', cancelText: 'Cancel', tone: 'danger' },
+      panelClass: 'confirm-dialog',
+    }).afterClosed();
   }
 }
