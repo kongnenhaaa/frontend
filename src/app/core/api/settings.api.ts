@@ -19,4 +19,8 @@ export class SettingsApi {
   upsert(key: string, value: string) {
     return this.http.post<Setting>(`${API_BASE_URL}/settings`, { key, value });
   }
+
+  remove(key: string) {
+    return this.http.delete(`${API_BASE_URL}/settings/${key}`);
+  }
 }

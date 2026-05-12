@@ -4,7 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { SettingsApi, Setting } from '../../core/api/settings.api';
 
 @Component({
@@ -16,6 +18,8 @@ import { SettingsApi, Setting } from '../../core/api/settings.api';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
+    MatIconModule,
     ReactiveFormsModule,
   ],
   templateUrl: './settings.component.html',
@@ -23,13 +27,16 @@ import { SettingsApi, Setting } from '../../core/api/settings.api';
 })
 export class SettingsComponent implements OnInit {
   readonly settings = signal<Setting[]>([]);
+  readonly isEditing = signal(false);
 
-  readonly form = this.fb.group({
-    key: ['', Validators.required],
-    value: ['', Validators.required],
-  });
+  readonly form: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly settingsApi: SettingsApi) {}
+  constructor(private readonly fb: FormBuilder, private readonly settingsApi: SettingsApi) {
+    this.form = this.fb.group({
+      key: ['', Validators.required],
+      value: ['', Validators.required],
+    });
+  }
 
   ngOnInit() {
     this.loadSettings();
@@ -42,12 +49,31 @@ export class SettingsComponent implements OnInit {
 
     const { key, value } = this.form.getRawValue();
     this.settingsApi.upsert(key ?? '', value ?? '').subscribe(() => {
-      this.form.reset();
+      this.cancelEdit();
       this.loadSettings();
     });
   }
 
+  editSetting(setting: Setting) {
+    this.isEditing.set(true);
+    this.form.patchValue({
+      key: setting.key,
+      value: setting.value
+    });
+  }
+
+  cancelEdit() {
+    this.isEditing.set(false);
+    this.form.reset();
+  }
+
+  deleteSetting(key: string) {
+    if (confirm(`Delete setting "${key}"?`)) {
+      this.settingsApi.remove(key).subscribe(() => this.loadSettings());
+    }
+  }
+
   private loadSettings() {
-    this.settingsApi.list().subscribe((response) => this.settings.set(response.items));
+    this.settingsApi.list().subscribe(res => this.settings.set(res.items));
   }
 }

@@ -1,0 +1,55 @@
+<div class="dlg-root">
+  <div class="dlg-header">
+    <div class="dlg-icon" style="background:rgba(99,102,241,0.12);color:#6366f1">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <div>
+      <h2>{{ isEdit ? 'Edit Role' : 'Create Role' }}</h2>
+      <p>{{ isEdit ? 'Update role details and permissions' : 'Define a new access role for the system' }}</p>
+    </div>
+    <button class="dlg-close" (click)="close()">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="dlg-form">
+
+    <div class="field-group">
+      <label>Role Name <span class="req">*</span></label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="currentColor" stroke-width="1.5"/></svg>
+        <input formControlName="name" placeholder="e.g. HR Manager" />
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Description</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <textarea formControlName="description" rows="2" placeholder="Brief description of this role..."></textarea>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Permissions</label>
+      <div class="perm-wrap">
+        @for (perm of availablePermissions; track perm) {
+          <div class="perm-tag-check" [class.active]="isPermSelected(perm)" (click)="togglePerm(perm)">
+            @if (isPermSelected(perm)) {
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            }
+            {{ perm }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="dlg-actions">
+      <button type="button" class="cancel-btn" (click)="close()">Cancel</button>
+      <button type="submit" class="save-btn" [disabled]="form.invalid">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        {{ isEdit ? 'Update Role' : 'Create Role' }}
+      </button>
+    </div>
+  </form>
+</div>

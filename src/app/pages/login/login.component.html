@@ -1,25 +1,326 @@
-<div class="min-h-screen flex items-center justify-center app-gradient px-6">
-  <mat-card class="w-full max-w-md">
-    <form class="p-6 space-y-5" [formGroup]="form" (ngSubmit)="submit()">
-      <div>
-        <p class="font-display text-2xl text-ink">Welcome back</p>
-        <p class="text-sm text-slate-500">Sign in to manage your workforce.</p>
+<div class="login-root">
+
+  <!-- Animated Background Scene -->
+  <div class="bg-scene">
+    <!-- Shifting gradient -->
+    <div class="gradient-shift"></div>
+    <!-- Grid -->
+    <div class="grid-overlay"></div>
+    <!-- Floating orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <!-- Floating particles -->
+    <div class="particles">
+      <span class="particle" style="--x:10%;--y:20%;--d:4s;--s:3px"></span>
+      <span class="particle" style="--x:25%;--y:60%;--d:6s;--s:2px"></span>
+      <span class="particle" style="--x:40%;--y:35%;--d:5s;--s:4px"></span>
+      <span class="particle" style="--x:55%;--y:75%;--d:7s;--s:2px"></span>
+      <span class="particle" style="--x:70%;--y:15%;--d:4.5s;--s:3px"></span>
+      <span class="particle" style="--x:80%;--y:50%;--d:8s;--s:2px"></span>
+      <span class="particle" style="--x:90%;--y:80%;--d:5.5s;--s:4px"></span>
+      <span class="particle" style="--x:15%;--y:90%;--d:6.5s;--s:2px"></span>
+      <span class="particle" style="--x:60%;--y:40%;--d:4s;--s:3px"></span>
+      <span class="particle" style="--x:35%;--y:85%;--d:7.5s;--s:2px"></span>
+      <span class="particle" style="--x:75%;--y:25%;--d:5s;--s:3px"></span>
+      <span class="particle" style="--x:50%;--y:55%;--d:9s;--s:2px"></span>
+    </div>
+    <!-- Scan line effect -->
+    <div class="scan-line"></div>
+  </div>
+
+  <!-- ═══════════ LEFT BRAND PANEL ═══════════ -->
+  <div class="brand-panel">
+    <div class="brand-content">
+
+      <!-- Logo -->
+      <div class="logo-wrap">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" fill="url(#grad)" />
+            <path d="M12 20a8 8 0 1 1 16 0H12Z" fill="white" opacity="0.9" />
+            <circle cx="20" cy="28" r="5" fill="white" />
+            <defs>
+              <linearGradient id="grad" x1="0" y1="0" x2="40" y2="40">
+                <stop stop-color="#6366f1" />
+                <stop offset="1" stop-color="#8b5cf6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-text">CoreHR</div>
+          <div class="logo-sub">Enterprise Platform</div>
+        </div>
       </div>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" placeholder="you@company.com" formControlName="email" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="••••••••" formControlName="password" />
-      </mat-form-field>
-      @if (error()) {
-        <p class="text-sm text-red-600">{{ error() }}</p>
-      }
-      <button mat-raised-button color="primary" class="w-full" [disabled]="loading()">
-        Sign in
-      </button>
-      <p class="text-xs text-slate-400">Powered by CoreHR Platform</p>
-    </form>
-  </mat-card>
+
+      <!-- Headline -->
+      <div class="brand-headline">
+        <div class="headline-badge">
+          <span class="pulse-dot"></span> Now with AI-powered insights
+        </div>
+        <h1>Manage Your<br><span class="text-gradient">Entire Workforce</span><br>In One Place</h1>
+        <p>A single unified platform to manage employees, departments, attendance, and analytics — designed for modern enterprise teams.</p>
+      </div>
+
+      <!-- Feature list -->
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon blue">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.8"/></svg>
+          </div>
+          <div>
+            <strong>Employee Management</strong>
+            <span>Full CRUD with filters & pagination</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon purple">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8"/></svg>
+          </div>
+          <div>
+            <strong>Attendance Tracking</strong>
+            <span>Real-time check-in / check-out logs</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon green">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <strong>Analytics & Reports</strong>
+            <span>Charts, summaries and drill-downs</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon orange">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7L12 2Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <strong>Role-Based Access Control</strong>
+            <span>Dynamic permissions, not hard-coded</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="brand-stats">
+        <div class="stat">
+          <strong>10k+</strong>
+          <span>Employees Managed</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>99.9%</strong>
+          <span>Uptime SLA</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>256-bit</strong>
+          <span>AES Encryption</span>
+        </div>
+      </div>
+
+      <!-- Testimonial card -->
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"CoreHR transformed how we manage our 500+ team. Everything in one place, beautifully designed."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JD</div>
+          <div>
+            <strong>Jane Doe</strong>
+            <span>Head of HR, TechCorp</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ RIGHT FORM PANEL ═══════════ -->
+  <div class="form-panel">
+    <div class="form-card">
+
+      <div class="forms-slider" [class.is-register]="isRegister()">
+
+        <!-- ================= LOGIN VIEW ================= -->
+        <div class="form-view">
+          <!-- Top Bar -->
+          <div class="form-top">
+            <div class="step-indicator">
+              <div class="step active"></div>
+              <div class="step"></div>
+              <div class="step"></div>
+            </div>
+            <a href="#" class="help-link">Need help?</a>
+          </div>
+
+          <!-- Header -->
+          <div class="form-header">
+            <div class="welcome-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12Z" fill="currentColor" opacity="0.8" />
+                <path d="M12 14.4c-5.3 0-8.4 2.65-8.4 4.8v1.2h16.8v-1.2c0-2.15-3.1-4.8-8.4-4.8Z" fill="currentColor" />
+              </svg>
+            </div>
+            <h2>Welcome back</h2>
+            <p>Sign in to continue to your workspace</p>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+            <div class="field-group">
+              <label for="email-input">Email address</label>
+              <div class="input-wrapper" [class.has-error]="form.get('email')?.invalid && form.get('email')?.touched">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="1.5" />
+                  <path d="m22 6-10 7L2 6" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                <input id="email-input" type="email" placeholder="your@company.com" formControlName="email" autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <div class="label-row">
+                <label for="password-input">Password</label>
+                <a href="javascript:void(0)" class="forgot-link">Forgot password?</a>
+              </div>
+              <div class="input-wrapper" [class.has-error]="form.get('password')?.invalid && form.get('password')?.touched">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.5" />
+                  <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                </svg>
+                <input [type]="showPassword() ? 'text' : 'password'" id="password-input" placeholder="••••••••••" formControlName="password" autocomplete="current-password" />
+                <button type="button" class="toggle-password" (click)="showPassword.set(!showPassword())" tabindex="-1">
+                  @if (showPassword()) {
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="m2 2 20 20" stroke="currentColor" stroke-width="1.5"/></svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            @if (error() && !isRegister()) {
+              <div class="error-banner">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" /><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                <span>{{ error() }}</span>
+              </div>
+            }
+
+            <button type="submit" class="submit-btn" [disabled]="loading()">
+              <div class="btn-glow"></div>
+              @if (loading() && !isRegister()) {
+                <div class="spinner"></div><span>Signing in...</span>
+              } @else {
+                <span>Sign in to CoreHR</span>
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              }
+            </button>
+          </form>
+
+          <div class="social-divider"><span>Or continue with</span></div>
+          <div class="social-grid">
+            <button type="button" class="social-btn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </button>
+            <button type="button" class="social-btn">
+              <svg viewBox="0 0 23 23"><path fill="#f3f3f3" d="M0 0h23v23H0z"/><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
+              Microsoft
+            </button>
+          </div>
+
+          <div class="switch-form-prompt">
+            Don't have an account? <a href="javascript:void(0)" (click)="isRegister.set(true)">Sign up</a>
+          </div>
+        </div>
+
+        <!-- ================= REGISTER VIEW ================= -->
+        <div class="form-view">
+          <!-- Top Bar -->
+          <div class="form-top">
+            <div class="step-indicator">
+              <div class="step"></div>
+              <div class="step active"></div>
+              <div class="step"></div>
+            </div>
+            <a href="#" class="help-link">Need help?</a>
+          </div>
+
+          <!-- Header -->
+          <div class="form-header">
+            <div class="welcome-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </div>
+            <h2>Create an account</h2>
+            <p>Join CoreHR to manage your workforce</p>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="registerForm" (ngSubmit)="submitRegister()" class="login-form">
+            <div class="field-group">
+              <label>Full name</label>
+              <div class="input-wrapper" [class.has-error]="registerForm.get('fullName')?.invalid && registerForm.get('fullName')?.touched">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                <input type="text" placeholder="John Doe" formControlName="fullName" autocomplete="name" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Email address</label>
+              <div class="input-wrapper" [class.has-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="1.5"/><path d="m22 6-10 7L2 6" stroke="currentColor" stroke-width="1.5"/></svg>
+                <input type="email" placeholder="your@company.com" formControlName="email" autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Password</label>
+              <div class="input-wrapper" [class.has-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                <svg class="field-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5" /><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="1.5" /><circle cx="12" cy="16" r="1.5" fill="currentColor" /></svg>
+                <input [type]="showPassword() ? 'text' : 'password'" placeholder="••••••••••" formControlName="password" autocomplete="new-password" />
+                <button type="button" class="toggle-password" (click)="showPassword.set(!showPassword())" tabindex="-1">
+                  @if (showPassword()) {
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="m2 2 20 20" stroke="currentColor" stroke-width="1.5"/></svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            @if (error() && isRegister()) {
+              <div class="error-banner">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" /><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                <span>{{ error() }}</span>
+              </div>
+            }
+
+            <button type="submit" class="submit-btn" [disabled]="loading()">
+              <div class="btn-glow"></div>
+              @if (loading() && isRegister()) {
+                <div class="spinner"></div><span>Creating account...</span>
+              } @else {
+                <span>Sign up for CoreHR</span>
+                <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              }
+            </button>
+          </form>
+
+          <div class="switch-form-prompt">
+            Already have an account? <a href="javascript:void(0)" (click)="isRegister.set(false)">Sign in</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
 </div>

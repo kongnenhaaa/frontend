@@ -25,9 +25,11 @@ import { AuthService } from '../core/auth/auth.service';
   styleUrl: './shell.component.css',
 })
 export class ShellComponent {
-  readonly user = this.authService.user;
+  readonly user;
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {}
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
+    this.user = this.authService.user;
+  }
 
   logout() {
     const request = this.authService.logout();

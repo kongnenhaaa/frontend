@@ -5,7 +5,15 @@ import { API_BASE_URL } from '../api.config';
 export interface AttendanceRecord {
   id: string;
   date: string;
+  checkIn?: string;
+  checkOut?: string;
   status: string;
+  employee?: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 }
 
 @Injectable({ providedIn: 'root' })

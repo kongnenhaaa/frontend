@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../api.config';
 
 export interface AttendanceReport {
   total: number;
+  breakdown: { status: string; count: number }[];
   generatedAt: string;
 }
 

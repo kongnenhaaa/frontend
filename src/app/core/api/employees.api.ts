@@ -12,6 +12,7 @@ export interface Employee {
   title?: string | null;
   status: string;
   hiredAt?: string | null;
+  department?: { id: string, name: string } | null;
 }
 
 export interface EmployeeListResponse {

@@ -1,0 +1,117 @@
+/* Shared premium dialog styles */
+.dlg-root {
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  min-width: 460px;
+  max-width: 560px;
+}
+
+/* Header */
+.dlg-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  position: relative;
+}
+.dlg-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dlg-icon svg { width: 20px; height: 20px; }
+.dlg-header h2 { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0 0 3px; }
+.dlg-header p { font-size: .8rem; color: #94a3b8; margin: 0; }
+.dlg-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid #e2e8f0; background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #64748b; transition: all .2s;
+}
+.dlg-close svg { width: 14px; height: 14px; }
+.dlg-close:hover { background: #f8fafc; color: #0f172a; }
+
+/* Form */
+.dlg-form { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+label { font-size: .8rem; font-weight: 600; color: #374151; }
+.req { color: #ef4444; }
+
+.input-wrap {
+  display: flex; align-items: center; gap: 10px;
+  background: #f8fafc; border: 1.5px solid #e2e8f0;
+  border-radius: 10px; padding: 10px 14px;
+  transition: all .2s;
+}
+.input-wrap:focus-within { background: white; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
+.input-wrap.err { border-color: #ef4444; }
+.input-wrap svg { width: 16px; height: 16px; color: #94a3b8; flex-shrink: 0; }
+.input-wrap input,
+.input-wrap select,
+.input-wrap textarea {
+  border: none; background: transparent; outline: none;
+  font-size: .88rem; color: #0f172a; width: 100%; font-family: inherit;
+}
+.input-wrap input::placeholder,
+.input-wrap textarea::placeholder { color: #94a3b8; }
+.input-wrap textarea { resize: none; }
+.input-wrap select { cursor: pointer; }
+
+/* Status selector */
+.status-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+.status-opt {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border-radius: 10px;
+  border: 1.5px solid #e2e8f0; background: white;
+  font-size: .82rem; font-weight: 500; color: #64748b;
+  cursor: pointer; transition: all .2s; user-select: none;
+}
+.status-opt:hover { background: #f8fafc; }
+.status-opt.sel { border-color: #6366f1; background: rgba(99,102,241,.06); color: #4f46e5; font-weight: 600; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.green  { background: #22c55e; }
+.gray   { background: #94a3b8; }
+.orange { background: #f97316; }
+.red    { background: #ef4444; }
+.blue   { background: #3b82f6; }
+
+/* Actions */
+.dlg-actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 4px; border-top: 1px solid #f1f5f9; }
+.cancel-btn {
+  padding: 9px 18px; border-radius: 10px;
+  border: 1.5px solid #e2e8f0; background: white;
+  font-size: .86rem; font-weight: 500; color: #64748b;
+  cursor: pointer; font-family: inherit; transition: all .2s;
+}
+.cancel-btn:hover { background: #f8fafc; }
+.save-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 20px; border-radius: 10px;
+  border: none; background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white; font-size: .86rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all .2s;
+  box-shadow: 0 2px 10px rgba(99,102,241,.35);
+}
+.save-btn svg { width: 15px; height: 15px; }
+.save-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 5px 18px rgba(99,102,241,.5); }
+.save-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Perm tags */
+.perm-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.perm-tag-check {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 8px;
+  border: 1.5px solid #e2e8f0; background: white;
+  font-size: .78rem; font-weight: 500; color: #475569;
+  cursor: pointer; transition: all .2s; user-select: none;
+  font-family: monospace;
+}
+.perm-tag-check.active { background: rgba(99,102,241,.08); border-color: rgba(99,102,241,.3); color: #4f46e5; }
+.perm-tag-check svg { width: 13px; height: 13px; color: #6366f1; }

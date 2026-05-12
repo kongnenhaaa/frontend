@@ -6,6 +6,10 @@ export interface DashboardSummary {
   employees: number;
   departments: number;
   attendance: number;
+  charts: {
+    status: { name: string; value: number }[];
+    departments: { name: string; value: number }[];
+  };
 }
 
 @Injectable({ providedIn: 'root' })

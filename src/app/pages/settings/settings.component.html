@@ -1,32 +1,115 @@
-<section class="space-y-4">
-  <div>
-    <p class="font-display text-2xl text-ink">Settings</p>
-    <p class="text-slate-500">Configure company preferences and policies.</p>
+<div class="page-root">
+  <div class="page-bg">
+    <div class="bg-orb o1"></div>
+    <div class="bg-orb o2"></div>
   </div>
-  <mat-card class="p-6 space-y-4">
-    <form class="grid gap-3 md:grid-cols-3" [formGroup]="form" (ngSubmit)="submit()">
-      <mat-form-field appearance="outline">
-        <mat-label>Key</mat-label>
-        <input matInput formControlName="key" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Value</mat-label>
-        <input matInput formControlName="value" />
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="md:mt-2" type="submit">Save</button>
-    </form>
 
-    <div class="space-y-2">
-      <div
-        class="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2"
-        *ngFor="let setting of settings()"
-      >
+  <!-- ═══════ HEADER ═══════ -->
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Configuration
+      </div>
+      <h1>System <span class="grad-text">Settings</span></h1>
+      <p>Configure company preferences and system-wide policies</p>
+    </div>
+  </div>
+
+  <!-- ═══════ SETTINGS LAYOUT ═══════ -->
+  <div class="settings-layout">
+
+    <!-- Left: Form -->
+    <div class="glass-card form-card">
+      <div class="card-hd">
         <div>
-          <p class="font-medium text-ink">{{ setting.key }}</p>
-          <p class="text-xs text-slate-500">{{ setting.value }}</p>
+          <h3>{{ isEditing() ? 'Edit Setting' : 'New Setting' }}</h3>
+          <p>{{ isEditing() ? 'Modify the existing configuration value' : 'Add a new key-value configuration' }}</p>
+        </div>
+        <div class="form-badge" [class.edit-mode]="isEditing()">
+          {{ isEditing() ? '✏ Edit' : '+ New' }}
         </div>
       </div>
-      <p class="text-sm text-slate-500" *ngIf="settings().length === 0">No settings yet.</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="settings-form">
+        <div class="field-group">
+          <label>Key</label>
+          <div class="input-wrap" [class.readonly]="isEditing()">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input formControlName="key" placeholder="e.g. company_name" [readonly]="isEditing()" />
+          </div>
+          @if (isEditing()) {
+            <span class="field-hint">Key cannot be changed after creation</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label>Value</label>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="1.8"/></svg>
+            <input formControlName="value" placeholder="Setting value..." />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          @if (isEditing()) {
+            <button type="button" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+          }
+          <button type="submit" class="save-btn" [disabled]="form.invalid">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ isEditing() ? 'Update' : 'Save Setting' }}
+          </button>
+        </div>
+      </form>
     </div>
-  </mat-card>
-</section>
+
+    <!-- Right: Table -->
+    <div class="glass-card table-card">
+      <div class="card-hd">
+        <div>
+          <h3>All Settings <span class="count-chip">{{ settings().length }}</span></h3>
+          <p>System-wide configuration values</p>
+        </div>
+      </div>
+
+      <div class="settings-table-wrap">
+        <table class="settings-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of settings(); track s.key; let i = $index) {
+              <tr class="s-row" [style.animation-delay]="i * 40 + 'ms'" [class.active-row]="isEditing() && form.get('key')?.value === s.key">
+                <td>
+                  <span class="key-badge">{{ s.key }}</span>
+                </td>
+                <td class="val-cell">{{ s.value }}</td>
+                <td class="edit-cell">
+                  <button class="edit-icon-btn" (click)="editSetting(s)" title="Edit">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z" stroke="currentColor" stroke-width="1.8"/></svg>
+                  </button>
+                  <button class="del-icon-btn" (click)="deleteSetting(s.key)" title="Delete">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (settings().length === 0) {
+              <tr><td colspan="3" class="empty-cell">
+                <div class="empty-state">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" stroke="currentColor" stroke-width="1.5"/></svg>
+                  <strong>No settings yet</strong>
+                </div>
+              </td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
