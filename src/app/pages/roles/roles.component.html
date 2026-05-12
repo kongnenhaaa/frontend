@@ -41,14 +41,13 @@
           <div class="role-icon">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
-          <div class="card-menu">
-            <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
-              <mat-icon>more_vert</mat-icon>
+          <div class="card-menu" style="display: flex; gap: 4px;">
+            <button class="action-btn edit-btn" (click)="openDialog(role)" title="Edit">
+              <mat-icon>edit</mat-icon>
             </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item (click)="openDialog(role)"><mat-icon>edit</mat-icon><span>Edit</span></button>
-              <button mat-menu-item (click)="deleteRole(role.id)"><mat-icon style="color:#ef4444">delete</mat-icon><span style="color:#ef4444">Delete</span></button>
-            </mat-menu>
+            <button class="action-btn delete-btn" (click)="deleteRole(role.id)" title="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </div>
 

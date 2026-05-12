@@ -88,20 +88,13 @@
                   <span class="key-badge">{{ s.key }}</span>
                 </td>
                 <td class="val-cell">{{ s.value }}</td>
-                <td class="edit-cell">
-                  <button mat-icon-button class="more-btn" [matMenuTriggerFor]="menu" aria-label="Setting actions">
-                    <mat-icon>more_vert</mat-icon>
+                <td class="edit-cell" style="display: flex; gap: 4px; justify-content: flex-end;">
+                  <button class="action-btn edit-btn" (click)="editSetting(s)" title="Edit">
+                    <mat-icon>edit</mat-icon>
                   </button>
-                  <mat-menu #menu="matMenu" xPosition="before">
-                    <button mat-menu-item (click)="editSetting(s)">
-                      <mat-icon>edit</mat-icon>
-                      <span>Edit</span>
-                    </button>
-                    <button mat-menu-item (click)="deleteSetting(s.key)">
-                      <mat-icon style="color:#ef4444">delete</mat-icon>
-                      <span style="color:#ef4444">Delete</span>
-                    </button>
-                  </mat-menu>
+                  <button class="action-btn delete-btn" (click)="deleteSetting(s.key)" title="Delete">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                 </td>
               </tr>
             }

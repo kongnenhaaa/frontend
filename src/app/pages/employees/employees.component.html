@@ -111,19 +111,12 @@
               </td>
               <!-- Actions -->
               <td class="actions-cell">
-                <button mat-icon-button class="more-btn" [matMenuTriggerFor]="menu" aria-label="Employee actions">
-                  <mat-icon>more_vert</mat-icon>
+                <button class="action-btn edit-btn" (click)="openDialog(emp)" title="Edit">
+                  <mat-icon>edit</mat-icon>
                 </button>
-                <mat-menu #menu="matMenu" xPosition="before">
-                  <button mat-menu-item (click)="openDialog(emp)">
-                    <mat-icon>edit</mat-icon>
-                    <span>Edit</span>
-                  </button>
-                  <button mat-menu-item (click)="deleteEmployee(emp.id)">
-                    <mat-icon style="color:#ef4444">delete</mat-icon>
-                    <span style="color:#ef4444">Delete</span>
-                  </button>
-                </mat-menu>
+                <button class="action-btn delete-btn" (click)="deleteEmployee(emp.id)" title="Delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </td>
             </tr>
           }

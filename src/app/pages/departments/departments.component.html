@@ -77,19 +77,14 @@
         <div class="dept-avatar" [style.background]="getAvatarColor(dept.name)">
           {{ dept.name.charAt(0) }}
         </div>
-        <button mat-icon-button [matMenuTriggerFor]="menu" class="more-btn">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item (click)="openDialog(dept)">
+        <div style="display: flex; gap: 4px;">
+          <button class="action-btn edit-btn" (click)="openDialog(dept)" title="Edit">
             <mat-icon>edit</mat-icon>
-            <span>Edit</span>
           </button>
-          <button mat-menu-item (click)="deleteDepartment(dept.id)" class="text-red-500">
-            <mat-icon class="text-red-500">delete</mat-icon>
-            <span>Delete</span>
+          <button class="action-btn delete-btn" (click)="deleteDepartment(dept.id)" title="Delete">
+            <mat-icon>delete</mat-icon>
           </button>
-        </mat-menu>
+        </div>
       </div>
 
       <div class="card-body">
