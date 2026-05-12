@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -7,6 +8,7 @@ let refreshInFlight = false;
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const router = inject(Router);
   const token = authService.getAccessToken();
 
   const authReq = token
@@ -21,6 +23,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       const refreshToken = authService.getRefreshToken();
       if (!refreshToken) {
+        router.navigateByUrl('/login');
         return throwError(() => error);
       }
 
@@ -36,6 +39,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }),
         catchError((refreshError) => {
           refreshInFlight = false;
+          router.navigateByUrl('/login');
           return throwError(() => refreshError);
         }),
       );
